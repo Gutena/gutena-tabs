@@ -1,0 +1,214 @@
+.gutena-tabs-block {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    row-gap: var( --gutena--tabs-tab-after-gap, 10px );
+
+    @media only screen and (max-width: 780px) and (min-width: 361px) {
+        &.tablet-scroll {
+            > .gutena-tabs-tab {
+                overflow: auto;
+                white-space: nowrap;
+                flex-wrap: nowrap;
+                justify-content: flex-start !important;
+
+                > .gutena-tab-title {
+                    flex: 1 0 auto;
+                }
+            }
+        }
+    }
+
+    @media only screen and (max-width: 360px) {
+        &.mobile-scroll {
+            > .gutena-tabs-tab {
+                overflow: auto;
+                white-space: nowrap;
+                flex-wrap: nowrap;
+                justify-content: flex-start !important;
+
+                > .gutena-tab-title {
+                    flex: 1 0 auto;
+                }
+            }
+        }
+    }
+
+    > .gutena-tabs-tab {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        list-style: none;
+        position: relative;
+        column-gap: var( --gutena--tabs-tab-spacing, 10px );
+
+        &.tab-center {
+            justify-content: center;
+        }
+
+        &.tab-right {
+            justify-content: flex-end;
+        }
+
+        &.tab-flex {
+            .gutena-tab-title {
+                flex: 1 0 auto;
+            }
+        }
+
+        > .gutena-tab-title {
+            position: relative;
+            padding: var( --gutena--tabs-tab-padding );
+            border-top: var( --gutena--tabs-tab-border-top );
+            border-right: var( --gutena--tabs-tab-border-right );
+            border-bottom: var( --gutena--tabs-tab-border-bottom );
+            border-left: var( --gutena--tabs-tab-border-left );
+            border-radius: var( --gutena--tabs-tab-border-radius );
+            background: var(--gutena--tabs-tab-background-gradient-color, var(--gutena--tabs-tab-background-color, #ffffff));
+            color: var(--gutena--tabs-tab-text-color, #000);
+            cursor: pointer;
+            box-shadow: var( --gutena--tabs-tab-box-shadow );
+            font-family: var( --gutena--tabs-tab-font-family, inherit );
+            font-size: var( --gutena--tabs-tab-font-size, 14px );
+            font-style: var( --gutena--tabs-tab-font-style );
+            font-weight: var( --gutena--tabs-tab-font-weight );
+            text-transform: var( --gutena--tabs-tab-text-transfrom );
+            text-align: center;
+
+            @media only screen and (max-width: 780px) {
+                padding: var( --gutena--tabs-tab-padding-tablet, var( --gutena--tabs-tab-padding ) );
+            }
+
+            @media only screen and (max-width: 360px) {
+                padding: var( --gutena--tabs-tab-padding-mobile, var( --gutena--tabs-tab-padding-tablet, var( --gutena--tabs-tab-padding ) ) );
+            }
+
+            &:hover {
+                box-shadow: var( --gutena--tabs-tab-hover-box-shadow );
+                border-top: var( --gutena--tabs-tab-hover-border-top );
+                border-right: var( --gutena--tabs-tab-hover-border-right );
+                border-bottom: var( --gutena--tabs-tab-hover-border-bottom );
+                border-left: var( --gutena--tabs-tab-hover-border-left );
+                border-radius: var( --gutena--tabs-tab-hover-border-radius );
+                color: var( --gutena--tabs-tab-hover-text-color, #000 );
+                background: var( --gutena--tabs-tab-hover-background-gradient-color, var( --gutena--tabs-tab-hover-background-color, #ffffff ) );
+                z-index: 4;
+                
+                > .gutena-tab-title-content {
+                    .gutena-tab-title-icon {
+                        svg {
+                            fill: var( --gutena--tabs-tab-hover-icon-color );
+                        }
+                    }
+                }    
+            }
+
+            &.active {
+                box-shadow: var( --gutena--tabs-tab-active-box-shadow );
+                border-top: var( --gutena--tabs-tab-active-border-top );
+                border-right: var( --gutena--tabs-tab-active-border-right );
+                border-bottom: var( --gutena--tabs-tab-active-border-bottom );
+                border-left: var( --gutena--tabs-tab-active-border-left );
+                border-radius: var( --gutena--tabs-tab-active-border-radius );
+                color: var( --gutena--tabs-tab-active-text-color, #000 );
+                background: var( --gutena--tabs-tab-active-background-gradient-color, var( --gutena--tabs-tab-active-background-color, #ffffff ) );
+                z-index: 4;
+                
+                > .gutena-tab-title-content {
+                    .gutena-tab-title-icon {
+                        svg {
+                            fill: var( --gutena--tabs-tab-active-icon-color );
+
+                            path {
+                                //stroke: #ffffff; /* Background color against your svg */
+                                stroke-width: 5px; /*Between 1px and 2px*/
+                            }
+                        }
+                    }
+                }    
+            }
+
+            > .gutena-tab-title-content {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: row;
+                height: 100%;
+
+                .gutena-tab-title-icon {
+                    height: 100%;
+                    
+                    svg {
+                        height: 100%;
+                        fill: var( --gutena--tabs-tab-icon-color );
+                    }
+                }
+    
+                &.icon-left {
+                    .gutena-tab-title-icon {
+                        margin-right: calc( var( --gutena--tabs-tab-icon-spacing, 10 ) * 1px );
+                    }
+                }
+
+                &.icon-right {
+                    flex-direction: row-reverse;
+
+                    .gutena-tab-title-icon {
+                        margin-left: calc( var( --gutena--tabs-tab-icon-spacing, 10 ) * 1px );
+                    }
+                }
+
+                &.icon-top {
+                    flex-direction: column;
+
+                    .gutena-tab-title-icon {
+                        margin-bottom: calc( var( --gutena--tabs-tab-icon-spacing, 10 ) * 1px );
+                    }
+                }
+            }
+        }
+    }
+
+    > .gutena-tabs-content {
+        position: relative;
+        margin: 0 !important;
+        z-index: 2;
+
+        > .gutena-tab-block {
+            box-shadow: var( --gutena--tabs-tab-container-box-shadow );
+            border-top: var( --gutena--tabs-tab-container-border-top );
+            border-right: var( --gutena--tabs-tab-container-border-right );
+            border-bottom: var( --gutena--tabs-tab-container-border-bottom );
+            border-left: var( --gutena--tabs-tab-container-border-left );
+            border-radius: var( --gutena--tabs-tab-container-border-radius );
+            color: var( --gutena--tabs-tab-container-text-color, #000 );
+            background: var( --gutena--tabs-tab-container-background-gradient-color, var( --gutena--tabs-tab-container-background-color, #ffffff ) );
+            padding: var( --gutena--tabs-tab-container-padding );
+
+            @media only screen and (max-width: 780px) {
+                padding: var( --gutena--tabs-tab-container-padding-tablet, var( --gutena--tabs-tab-container-padding ) );
+            }
+
+            @media only screen and (max-width: 360px) {
+                padding: var( --gutena--tabs-tab-container-padding-mobile, var( --gutena--tabs-tab-container-padding-tablet, var( --gutena--tabs-tab-container-padding ) ) );
+            }
+
+            // &:hover {
+            //     box-shadow: var( --gutena--tabs-tab-container-hover-box-shadow );
+            //     border-top: var( --gutena--tabs-tab-container-hover-border-top );
+            //     border-right: var( --gutena--tabs-tab-container-hover-border-right );
+            //     border-bottom: var( --gutena--tabs-tab-container-hover-border-bottom );
+            //     border-left: var( --gutena--tabs-tab-container-hover-border-left );
+            //     border-radius: var( --gutena--tabs-tab-container-hover-border-radius );
+            //     color: var( --gutena--tabs-tab-container-hover-text-color, #000 );
+            //     background: var( --gutena--tabs-tab-container-hover-background-gradient-color, var( --gutena--tabs-tab-container-hover-background-color, #ffffff ) );
+            // }
+
+            &:not(.active) {
+                display: none;
+            }
+        }
+    }
+}

@@ -1,0 +1,82 @@
+.components-gutena-tabs-range-unit-control {
+    margin-bottom: 8px !important;
+
+    .components-gutena-tabs-range-unit-control__wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 10px;
+
+        .components-unit-control-wrapper {
+            width: 30%;
+            margin-bottom: 8px;
+        }
+
+        .components-range-control {
+            width: calc(70% - 20px);
+            margin-bottom: 8px;
+            margin-right: 5px;
+        }
+    }
+}
+
+.gutena-tabs-settings {
+    .gutena-tabs-select-device {
+        width: 1rem;
+        height: 1rem;
+
+        .components-button.has-icon {
+            padding: 0;
+            min-width: 1rem;
+            height: auto;
+
+            svg {
+                width: 1rem;
+                height: 1rem;
+            }
+        }
+    }
+}
+
+.gutena-tabs-color-toolpanel {
+    padding: 0 !important;
+    border: 0;
+    gap: 0 !important;
+}
+
+.gutena-tab-panel.gutena-tabs {
+    .components-tab-panel__tabs {
+        border-bottom: 4px solid #ddd;
+        margin-bottom: 0;
+
+        button.components-tab-panel__tabs-item {
+            font-size: 12px;
+            justify-content: center;
+            background: transparent;
+            border: 0;
+            border-bottom: 4px solid transparent;
+            padding: 6px 16px;
+            margin-bottom: -4px;
+            outline: 0;
+            color: #575757;
+            width: 50%;
+            text-transform: uppercase;
+
+            &.active-tab {
+                border-bottom-color: #1e1e1e;
+                color: #1e1e1e;
+            }
+
+            &:focus,
+            &:active {
+                box-shadow: none;
+            }
+        }
+    }
+
+    .components-tab-panel__tab-content {
+        .components-font-appearance-control .components-button {
+            width: 100% !important;
+        }
+    }
+}
