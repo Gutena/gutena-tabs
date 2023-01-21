@@ -550,9 +550,9 @@ function GutenaTabs( props ) {
 	return (
 		<>
 			{ isModalOpen && (
-				<Modal title="Are you confirm?" isDismissible={ false }>
-					<div>{ sprintf( __( 'This will remove the tab: %s', 'gutena-tabs' ), titleTabs[ currentTab - 1 ]?.text ) }</div>
-					<div style={ { textAlign: 'right', marginTop: '18px' } }>
+				<Modal title={ __( 'Are you sure?', 'gutena-tabs' ) } isDismissible={ false } className="gutena-tabs-delete-tab-modal">
+					<div>{ sprintf( __( 'Do you really want to delete tab: "%s"', 'gutena-tabs' ), titleTabs[ currentTab - 1 ]?.text ) }</div>
+					<div style={ {  marginTop: '18px' } }>
 						<Button variant="secondary" onClick={ () => { setModalOpen( false ) } } style={ { marginRight: '10px' } }>{ __( 'Cancel', 'gutena-tabs' ) }</Button>
 						<Button variant="primary" onClick={ () => {
 							const curTab = currentTab - 1;
@@ -563,7 +563,7 @@ function GutenaTabs( props ) {
 							setCurrentTab( ( curTab === 0 ? 1 : curTab ) )
 							resetOrder();
 							setModalOpen( false );
-						} }>{ __( 'Remove Tab', 'gutena-tabs' ) }</Button>
+						} }>{ __( 'Delete', 'gutena-tabs' ) }</Button>
 					</div>
 				</Modal>
 			) }

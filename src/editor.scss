@@ -44,6 +44,16 @@
     gap: 0 !important;
 }
 
+.gutena-tabs-delete-tab-modal {
+    .components-modal__content {
+        text-align: center;
+
+        .components-modal__header-heading-container {
+            justify-content: center;
+        }
+    }
+}
+
 .gutena-tab-panel.gutena-tabs {
     .components-tab-panel__tabs {
         border-bottom: 4px solid #ddd;

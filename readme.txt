@@ -65,6 +65,11 @@ If you like this plugin, consider exploring our other themes and plugins:
 
 == Changelog ==
 
+= 1.0.1 =
+Release Date:
+
+* Fixed: Delete modal content.
+
 = 1.0.0 =
 Release Date: 20th January, 2023
 
