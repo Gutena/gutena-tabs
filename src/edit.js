@@ -551,7 +551,7 @@ function GutenaTabs( props ) {
 		<>
 			{ isModalOpen && (
 				<Modal title={ __( 'Are you sure?', 'gutena-tabs' ) } isDismissible={ false } className="gutena-tabs-delete-tab-modal">
-					<div>{ sprintf( __( 'Do you really want to delete tab: "%s"', 'gutena-tabs' ), titleTabs[ currentTab - 1 ]?.text ) }</div>
+					<div>{ __( 'Do you really want to delete', 'gutena-tabs' ) } <strong>"{ titleTabs[ currentTab - 1 ]?.text }"</strong></div>
 					<div style={ {  marginTop: '18px' } }>
 						<Button variant="secondary" onClick={ () => { setModalOpen( false ) } } style={ { marginRight: '10px' } }>{ __( 'Cancel', 'gutena-tabs' ) }</Button>
 						<Button variant="primary" onClick={ () => {
@@ -692,9 +692,9 @@ function GutenaTabs( props ) {
 
 			{ renderCSS }
 			<div { ...blockProps }>
-				<ul className={ `gutena-tabs-tab tab-${ tabPosition } editor` }>
+				<ul className={ `gutena-tabs-tab tab-${ tabPosition } editor`}>
 					{ times( tabCount, n => (
-						<li className={ `gutena-tab-title ${ ( 1 + n === currentTab ? 'active' : 'inactive' ) }` } key={ n + 1 } onClick={ () => setCurrentTab( 1 + n ) }>
+						<li className={ `gutena-tab-title ${ ( 1 + n === currentTab ? 'active' : 'inactive' ) }` } key={ n + 1 } data-tab={ n + 1 } onClick={ () => setCurrentTab( 1 + n ) }>
 							<div className={ `gutena-tab-title-content icon-${ tabIconPosition }` }>
 								{
 									tabIcon && titleTabs[ n ] && titleTabs[ n ].icon && (

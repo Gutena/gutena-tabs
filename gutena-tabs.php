@@ -34,6 +34,13 @@ if ( ! class_exists( 'Gutena_Tabs' ) ) {
 		public $version = '1.0.0';
 
 		/**
+		 * Block styles.
+		 *
+		 * @var array
+		 */
+		public $styles = [];
+
+		/**
 		 * Instance of this class.
 		 *
 		 * @since 1.0.0
@@ -73,6 +80,22 @@ if ( ! class_exists( 'Gutena_Tabs' ) ) {
 			register_block_type( __DIR__ . '/build', [
 				'render_callback' => [ $this, 'render_block' ],
 			] );
+
+			// Register blocks.
+			register_block_type( __DIR__ . '/build/tab', [
+				'render_callback' => [ $this, 'render_tab_block' ],
+			] );
+		}
+
+		/**
+		 * Render Gutena play button block.
+		 */
+		public function render_tab_block( $attributes, $content, $block ) {
+			if ( ! empty( $attributes['blockStyles'] ) && is_array( $attributes['blockStyles'] ) && ! empty( $attributes['tabBorder']['enable'] ) ) {
+				$this->styles[ $attributes['parentUniqueId'] ][ $attributes['tabId'] ] = $attributes['blockStyles'];
+			}
+			
+			return $content;
 		}
 
 		/**
@@ -82,12 +105,32 @@ if ( ! class_exists( 'Gutena_Tabs' ) ) {
 			add_action(
 				'wp_head',
 				function() use ( $attributes ) {
+					$styles = '';
 					if ( ! empty( $attributes['blockStyles'] ) && is_array( $attributes['blockStyles'] ) ) {
-						// print css
-						printf(
-							'<style id="gutena-tabs-css-%1$s">.gutena-tabs-block-%1$s { %2$s }</style>',
+						$styles .= sprintf( 
+							'.gutena-tabs-block-%1$s { %2$s }',
 							esc_attr( $attributes['uniqueId'] ),
-							esc_html( $this->render_css( $attributes['blockStyles'] ) ),
+							$this->render_css( $attributes['blockStyles'] ),
+						);
+
+						if ( ! empty( $this->styles[ $attributes['uniqueId'] ] ) ) {
+							foreach( $this->styles[ $attributes['uniqueId'] ] as $tab_id => $style ) {
+								$styles .= sprintf( 
+									'.gutena-tabs-block-%1$s .gutena-tabs-tab .gutena-tab-title[data-tab="%2$s"] { %3$s }',
+									esc_attr( $attributes['uniqueId'] ),
+									esc_attr( $tab_id ),
+									$this->render_css( $style ),
+								);
+							}
+						}
+					}
+
+					// print css
+					if ( ! empty( $styles ) ) {
+						printf(
+							'<style id="gutena-tabs-css-%1$s">%2$s</style>',
+							esc_attr( $attributes['uniqueId'] ),
+							$styles,
 						);
 					}
 				}

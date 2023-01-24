@@ -18,6 +18,16 @@
         },
         "tabId": {
             "type": "integer"
+        },
+        "tabBorder": {
+			"type": "object",
+            "enable": false
+		},
+        "parentUniqueId": {
+            "type": "string"
+        },
+		"blockStyles": {
+            "type": "object"
         }
 	},
     "editorScript": "file:./index.js"

@@ -48,8 +48,12 @@
     .components-modal__content {
         text-align: center;
 
-        .components-modal__header-heading-container {
-            justify-content: center;
+        .components-modal__header {
+            height: 95px;
+            
+            .components-modal__header-heading-container {
+                justify-content: center;
+            }
         }
     }
 }
@@ -89,4 +93,9 @@
             width: 100% !important;
         }
     }
+}
+
+
+.gutena-tabs-tab {
+    
 }
