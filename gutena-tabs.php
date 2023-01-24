@@ -34,8 +34,9 @@ if ( ! class_exists( 'Gutena_Tabs' ) ) {
 		public $version = '1.0.0';
 
 		/**
-		 * Block styles.
+		 * Child Block styles.
 		 *
+		 * @since 1.0.1
 		 * @var array
 		 */
 		public $styles = [];
@@ -114,7 +115,7 @@ if ( ! class_exists( 'Gutena_Tabs' ) ) {
 						);
 
 						if ( ! empty( $this->styles[ $attributes['uniqueId'] ] ) ) {
-							foreach( $this->styles[ $attributes['uniqueId'] ] as $tab_id => $style ) {
+							foreach ( $this->styles[ $attributes['uniqueId'] ] as $tab_id => $style ) {
 								$styles .= sprintf( 
 									'.gutena-tabs-block-%1$s .gutena-tabs-tab .gutena-tab-title[data-tab="%2$s"] { %3$s }',
 									esc_attr( $attributes['uniqueId'] ),
