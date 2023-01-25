@@ -56,7 +56,7 @@ import {
  */
 import classnames from 'classnames';
 import memoize from 'memize';
-import { times, filter, get } from 'lodash';
+import { times, filter } from 'lodash';
 
 /**
  * Import custom components
