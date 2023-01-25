@@ -156,12 +156,7 @@ export default function edit( props ) {
                         <BorderGroup 
                             panelLabel={ false }
                             attrValue={ tabBorder }
-                            onChangeFunc = { ( value ) => {
-                                setAttributes( { tabBorder: {
-                                    ...tabBorder,
-                                    value
-                                } } )
-                            } }
+                            onChangeFunc = { ( value ) => setAttributes( { tabBorder: value } ) }
                             colorVar={ true }
                             withPanel={ false }
                             attrProps={ DEFAULT_PROPS }

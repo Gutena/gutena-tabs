@@ -68,6 +68,7 @@ If you like this plugin, consider exploring our other themes and plugins:
 = 1.0.1 =
 Release Date: 25th January, 2023
 
+* Added: 6 Pre-defined layouts.
 * Added: Settings to add Border and Radius on per tab heading.
 * Fixed: Delete modal content.
 

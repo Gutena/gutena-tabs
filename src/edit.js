@@ -5,7 +5,7 @@ import { __ } from '@wordpress/i18n';
 import { compose } from '@wordpress/compose';
 import { useEffect, useState } from '@wordpress/element';
 import { useSelect, useDispatch, withSelect, withDispatch } from '@wordpress/data';
-import { createBlock } from '@wordpress/blocks';
+import { createBlock, createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
 import { 
 	__experimentalSpacer as Spacer,
     __experimentalBoxControl as BoxControl,
@@ -28,6 +28,7 @@ import {
 import { 
 	__experimentalFontFamilyControl as FontFamilyControl,
 	__experimentalFontAppearanceControl as FontAppearanceControl,
+	__experimentalBlockVariationPicker as BlockVariationPicker,
     RichText,
 	useSetting,
 	InspectorControls,
@@ -55,7 +56,7 @@ import {
  */
 import classnames from 'classnames';
 import memoize from 'memize';
-import { times, filter, map } from 'lodash';
+import { times, filter, get } from 'lodash';
 
 /**
  * Import custom components
@@ -73,6 +74,8 @@ import parseIcon from './utils/parse-icon';
 import { flattenIconsArray } from './utils/icon-functions';
 import getIcons from './icons';
 import DynamicStyles from './styles';
+
+import variations from './variations'
 
 /**
  * Styles
@@ -100,6 +103,40 @@ const DEFAULT_PROPS = {
  * This allows for checking to see if the block needs to generate a new ID.
  */
 const gutenaTabsUniqueIds = [];
+
+function Placeholder( { clientId, attributes, setAttributes } ) {
+    const defaultVariation = variations.filter( item => item.isDefault )[0] || variations[0];
+
+    const { replaceInnerBlocks } = useDispatch( blockEditorStore );
+    const blockProps = useBlockProps( {
+        className: `gutena-tabs-block gutena-tabs-block-${ attributes.uniqueId }`,
+    } );
+
+    return (
+        <div { ...blockProps }>
+            <BlockVariationPicker
+                label={ __( 'Tabs Style', 'gutena-tabs' ) }
+                instructions={ __( 'Select a Tabs style to start with.', 'gutena-tabs' ) }
+                variations={ variations }
+                onSelect={ ( variation = defaultVariation ) => {
+                    if ( variation.attributes ) {
+                        setAttributes( variation.attributes );
+                    }
+                    if ( variation.innerBlocks ) {
+                        replaceInnerBlocks(
+                            clientId,
+                            createBlocksFromInnerBlocksTemplate(
+                                variation.innerBlocks
+                            ),
+                            true
+                        );
+                    }
+                } }
+                allowSkip
+            />
+        </div>
+    );
+}
 
 function GutenaTabs( props ) {
     const { 
@@ -144,13 +181,14 @@ function GutenaTabs( props ) {
 		layout 
 	} = attributes;
 
-	const { selectedBlock, selectedBlockClientId, parentBlockId } = useSelect(
+	const { selectedBlock, selectedBlockClientId, parentBlockId, hasInnerBlocks } = useSelect(
 		( select ) => {
-			const { getSelectedBlock, getSelectedBlockClientId, getBlockRootClientId } = select( blockEditorStore );
+			const { getSelectedBlock, getSelectedBlockClientId, getBlockRootClientId, getBlocks } = select( blockEditorStore );
 			return {
 				selectedBlock: getSelectedBlock(),
 				selectedBlockClientId: getSelectedBlockClientId(),
-				parentBlockId: getBlockRootClientId( getSelectedBlockClientId() ) 
+				parentBlockId: getBlockRootClientId( getSelectedBlockClientId() ) ,
+				hasInnerBlocks: getBlocks( clientId ).length > 0
 			};
 		},
 		[ clientId ]
@@ -570,18 +608,18 @@ function GutenaTabs( props ) {
 
 			<BlockControls group="block">
 				<ToolbarDropdownMenu
-					icon={ aligns?.[ tabPosition ].icon }
+					icon={ aligns?.[ tabPosition ]?.icon }
 					label={ __( 'Tab Align', 'gutena-tabs' ) }
 					controls={ Object.keys( aligns ).map( align => {
 						{
 							const isActive = align === tabPosition;
 							return {
-								icon: aligns?.[ align ].icon,
-								label: aligns?.[ align ].title,
+								icon: aligns?.[ align ]?.icon,
+								label: aligns?.[ align ]?.title,
 								title: sprintf(
 									// translators: %s: Title
 									__( 'Align %s', 'gutena-tabs' ),
-									aligns?.[ align ].title
+									aligns?.[ align ]?.title
 								),
 								isActive,
 								onClick: () => setAttributes( { tabPosition: align } ),
@@ -691,35 +729,39 @@ function GutenaTabs( props ) {
 			/>
 
 			{ renderCSS }
-			<div { ...blockProps }>
-				<ul className={ `gutena-tabs-tab tab-${ tabPosition } editor`}>
-					{ times( tabCount, n => (
-						<li className={ `gutena-tab-title ${ ( 1 + n === currentTab ? 'active' : 'inactive' ) }` } key={ n + 1 } data-tab={ n + 1 } onClick={ () => setCurrentTab( 1 + n ) }>
-							<div className={ `gutena-tab-title-content icon-${ tabIconPosition }` }>
-								{
-									tabIcon && titleTabs[ n ] && titleTabs[ n ].icon && (
-										<div className="gutena-tab-title-icon">
-											{ renderSVG( titleTabs[ n ].icon, tabIconSize ) }
-										</div>
-									)
-								}
-								<div className="gutena-tab-title-text">
-									<RichText
-										tagName="div"
-										placeholder={ __( 'Tab Title', 'gutena-tabs' ) }
-										value={ ( titleTabs[ n ] && titleTabs[ n ].text ? titleTabs[ n ].text : '' ) }
-										allowedFormats={ applyFilters( 'gutena_tabs.whitelist_richtext_formats', [ 'core/bold', 'core/italic', 'core/strikethrough', 'toolset/inline-field' ] ) }
-										onChange={ value => {
-											saveArrayUpdate( { text: value }, n );
-										} }
-									/>
+			{ hasInnerBlocks ? (
+				<div { ...blockProps }>
+					<ul className={ `gutena-tabs-tab tab-${ tabPosition } editor`}>
+						{ times( tabCount, n => (
+							<li className={ `gutena-tab-title ${ ( 1 + n === currentTab ? 'active' : 'inactive' ) }` } key={ n + 1 } data-tab={ n + 1 } onClick={ () => setCurrentTab( 1 + n ) }>
+								<div className={ `gutena-tab-title-content icon-${ tabIconPosition }` }>
+									{
+										tabIcon && titleTabs[ n ] && titleTabs[ n ].icon && (
+											<div className="gutena-tab-title-icon">
+												{ renderSVG( titleTabs[ n ].icon, tabIconSize ) }
+											</div>
+										)
+									}
+									<div className="gutena-tab-title-text">
+										<RichText
+											tagName="div"
+											placeholder={ __( 'Tab Title', 'gutena-tabs' ) }
+											value={ ( titleTabs[ n ] && titleTabs[ n ].text ? titleTabs[ n ].text : '' ) }
+											allowedFormats={ applyFilters( 'gutena_tabs.whitelist_richtext_formats', [ 'core/bold', 'core/italic', 'core/strikethrough', 'toolset/inline-field' ] ) }
+											onChange={ value => {
+												saveArrayUpdate( { text: value }, n );
+											} }
+										/>
+									</div>
 								</div>
-							</div>
-						</li>
-					) ) }
-				</ul>
-				<div { ...innerBlocksProps } />
-			</div>
+							</li>
+						) ) }
+					</ul>
+					<div { ...innerBlocksProps } />
+				</div>
+			) : (
+				<Placeholder { ...props } />
+			) }
 		</>
 	);
 }
