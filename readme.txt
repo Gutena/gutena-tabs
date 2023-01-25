@@ -3,16 +3,16 @@ Contributors: expresstech, infosatech
 Tags: block, horizontal tab, responsive tabs, tabs, wordpress tabs
 Requires at least: 5.8
 Tested up to: 6.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
 == Description ==
 
-### Gutena Tabs
-
 Gutena Tabs is a simple and easy-to-use WordPress plugin which allows you to create beautiful tabs in your posts and pages. The plugin is simple to use but provides many customization options so you can create tabs that look great and fit into your design. Additionally, You can add beautiful icons to the tabs.
+
+[Gutena Tabs Demo](https://gutena.io/tabs-block)
 
 == Features ==
 
@@ -66,8 +66,9 @@ If you like this plugin, consider exploring our other themes and plugins:
 == Changelog ==
 
 = 1.0.1 =
-Release Date:
+Release Date: 25th January, 2023
 
+* Added: Settings to add Border and Radius on per tab heading.
 * Fixed: Delete modal content.
 
 = 1.0.0 =

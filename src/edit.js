@@ -435,7 +435,7 @@ function GutenaTabs( props ) {
 				/>
 			</PanelBody>
 			<BorderGroup 
-				panelLabel={ __( 'Border & Radius', 'gutena-tabs' ) }
+				panelLabel={ __( 'Border', 'gutena-tabs' ) }
 				attrValue={ tabBorder }
 				onChangeFunc = { ( value ) => setAttributes( { tabBorder: value } ) }
 				colorVar={ true }

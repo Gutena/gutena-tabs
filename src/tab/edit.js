@@ -140,10 +140,10 @@ export default function edit( props ) {
                     )
                 }
 
-                <PanelBody title={ __( 'Border & Radius', 'gutena-tabs' ) } initialOpen={ false }>
+                <PanelBody title={ __( 'Border', 'gutena-tabs' ) } initialOpen={ false }>
                     <ToggleControl
-                        label={ __( 'Enable Custom Settings?', 'gutena-tabs' ) }
-                        help={ __( 'It will override the Global Settings.', 'gutena-tabs' ) }
+                        label={ __( 'Enable Single Tab Settings', 'gutena-tabs' ) }
+                        help={ __( 'If you want to customize all tabs together, please use global tabs settings.', 'gutena-tabs' ) }
                         checked={ tabBorder?.enable }
                         onChange={ () => {
                             setAttributes( { tabBorder: {
