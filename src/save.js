@@ -49,7 +49,7 @@ export default function save( { attributes } ) {
 		<div { ...blockProps }>
 			<ul className={ `gutena-tabs-tab tab-${ tabPosition }` }>
 				{ times( tabCount, n => (
-					<li className={ `gutena-tab-title ${ ( 1 + n === activeTab ? 'active' : 'inactive' ) }` } key={ n + 1 }>
+					<li className={ `gutena-tab-title ${ ( 1 + n === activeTab ? 'active' : 'inactive' ) }` } data-tab={ n + 1 } key={ n + 1 }>
 						<div className={ `gutena-tab-title-content icon-${ tabIconPosition }` }>
 							{
 								tabIcon && titleTabs[ n ] && titleTabs[ n ].icon && (

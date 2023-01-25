@@ -4,6 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { useEffect } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
+import { PanelBody, ToggleControl } from '@wordpress/components';
 import { 
     InnerBlocks,
     useBlockProps, 
@@ -16,7 +17,16 @@ import {
  * External dependencies
  */
 import classnames from 'classnames';
+import BorderGroup from '../components/BorderGroup';
 import IconControl from '../components/IconControl';
+
+import DynamicStyles from './styles';
+
+const DEFAULT_PROPS = {
+    normal: __( 'Normal', 'gutena-tabs' ),
+    hover: __( 'Hover', 'gutena-tabs' ),
+    active: __( 'Active', 'gutena-tabs' )
+}
 
 /**
  * This allows for checking to see if the block needs to generate a new ID.
@@ -30,7 +40,7 @@ import './editor.scss';
 
 export default function edit( props ) {
     const { attributes, setAttributes, clientId, isSelected } = props;
-    const { uniqueId, tabId, tabTitle } = attributes;
+    const { uniqueId, parentUniqueId, tabId, tabBorder, blockStyles } = attributes;
 
     const { hasChildBlocks, rootClientId, rootBlock } = useSelect(
 		( select ) => {
@@ -48,6 +58,11 @@ export default function edit( props ) {
 
     const { updateBlockAttributes } = useDispatch( blockEditorStore );
     const { titleTabs, tabIcon } = rootBlock?.attributes;
+    const parentBlockUniqueId = rootBlock?.attributes?.uniqueId;
+
+    useEffect( () => {
+        setAttributes( { parentUniqueId: parentBlockUniqueId } );
+    }, [ parentBlockUniqueId ] )
 
     const saveArrayUpdate = ( value, index ) => {
 		const newItems = titleTabs.map( ( item, thisIndex ) => {
@@ -76,6 +91,26 @@ export default function edit( props ) {
 		}
     }, [] )
 
+    const dynamicStyles = DynamicStyles( attributes )
+    const renderCSS = (
+		<style>
+			{`
+				.gutena-tabs-block-${ parentUniqueId } .gutena-tabs-tab .gutena-tab-title[data-tab="${ tabId }"] {
+					${ Object.entries( dynamicStyles ).map( ( [ k, v ] ) => `${ k }:${ v }` ).join( ';' ) }
+				}
+			`}
+		</style>
+	);
+
+    const customStyles = JSON.stringify( dynamicStyles )
+    useEffect( () => {
+        if ( customStyles != JSON.stringify( blockStyles ) ) {
+			setAttributes( {
+				blockStyles: dynamicStyles,
+			} );
+        }
+    }, [ customStyles ] )
+
 	const blockProps = useBlockProps( {
         className: classnames( 'gutena-tab-block', `gutena-tab-block-${ uniqueId }` ),
     } );
@@ -90,9 +125,9 @@ export default function edit( props ) {
 
     return (
         <>
-            {
-                tabIcon && (
-                    <InspectorControls>
+            <InspectorControls>
+                {
+                    tabIcon && (
                         <IconControl 
                             activeIcon={ titleTabs?.[ tabIndexId ]?.icon } 
                             value={ titleTabs?.[ tabIndexId ]?.icon } 
@@ -102,9 +137,35 @@ export default function edit( props ) {
                             initialOpen={ true }
                             panelTitle={ __( 'Icon Settings', 'gutena-tabs' ) }
                         />
-                    </InspectorControls>
-                )
-            }
+                    )
+                }
+
+                <PanelBody title={ __( 'Border', 'gutena-tabs' ) } initialOpen={ false }>
+                    <ToggleControl
+                        label={ __( 'Enable Single Tab Settings', 'gutena-tabs' ) }
+                        help={ __( 'If you want to customize all tabs together, please use global tabs settings.', 'gutena-tabs' ) }
+                        checked={ tabBorder?.enable }
+                        onChange={ () => {
+                            setAttributes( { tabBorder: {
+                                ...tabBorder,
+                                enable: ! tabBorder?.enable
+                            } } )
+                        } }
+                    />
+                    { tabBorder?.enable && (
+                        <BorderGroup 
+                            panelLabel={ false }
+                            attrValue={ tabBorder }
+                            onChangeFunc = { ( value ) => setAttributes( { tabBorder: value } ) }
+                            colorVar={ true }
+                            withPanel={ false }
+                            attrProps={ DEFAULT_PROPS }
+                        />
+                    ) }
+                </PanelBody>
+            </InspectorControls>
+
+            { tabBorder?.enable && renderCSS }
             <div { ...innerBlocksProps } />
         </>
     );

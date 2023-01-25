@@ -86,13 +86,13 @@
             }
 
             &:hover {
-                box-shadow: var( --gutena--tabs-tab-hover-box-shadow );
-                border-top: var( --gutena--tabs-tab-hover-border-top );
-                border-right: var( --gutena--tabs-tab-hover-border-right );
-                border-bottom: var( --gutena--tabs-tab-hover-border-bottom );
-                border-left: var( --gutena--tabs-tab-hover-border-left );
-                border-radius: var( --gutena--tabs-tab-hover-border-radius );
-                color: var( --gutena--tabs-tab-hover-text-color, #000 );
+                box-shadow: var( --gutena--tabs-tab-hover-box-shadow, var( --gutena--tabs-tab-box-shadow ) );
+                border-top: var( --gutena--tabs-tab-hover-border-top, var( --gutena--tabs-tab-border-top ) );
+                border-right: var( --gutena--tabs-tab-hover-border-right, var( --gutena--tabs-tab-border-right ) );
+                border-bottom: var( --gutena--tabs-tab-hover-border-bottom, var( --gutena--tabs-tab-border-bottom ) );
+                border-left: var( --gutena--tabs-tab-hover-border-left, var( --gutena--tabs-tab-border-left ) );
+                border-radius: var( --gutena--tabs-tab-hover-border-radius, var( --gutena--tabs-tab-border-radius ) );
+                color: var( --gutena--tabs-tab-hover-text-color, var( --gutena--tabs-tab-text-color, #000 ) );
                 background: var( --gutena--tabs-tab-hover-background-gradient-color, var( --gutena--tabs-tab-hover-background-color, #ffffff ) );
                 z-index: 4;
                 
@@ -148,6 +148,7 @@
     
                 &.icon-left {
                     .gutena-tab-title-icon {
+                        margin-left: -3px;
                         margin-right: calc( var( --gutena--tabs-tab-icon-spacing, 10 ) * 1px );
                     }
                 }
@@ -157,6 +158,7 @@
 
                     .gutena-tab-title-icon {
                         margin-left: calc( var( --gutena--tabs-tab-icon-spacing, 10 ) * 1px );
+                        margin-right: -3px;
                     }
                 }
 
