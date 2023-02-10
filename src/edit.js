@@ -56,7 +56,7 @@ import {
  */
 import classnames from 'classnames';
 import memoize from 'memize';
-import { times, filter } from 'lodash';
+import { times, filter, isEqual } from 'lodash';
 
 /**
  * Import custom components
@@ -321,14 +321,13 @@ function GutenaTabs( props ) {
 		</style>
 	);
 
-    const customStyles = JSON.stringify( dynamicStyles )
-    useEffect( () => {
-        if ( customStyles != JSON.stringify( blockStyles ) ) {
+	useEffect( () => {
+        if ( ! isEqual( blockStyles, dynamicStyles ) ) {
 			setAttributes( {
 				blockStyles: dynamicStyles,
 			} );
         }
-    }, [ customStyles ] )
+    }, [ dynamicStyles ] )
 
 	const tabHeadingOptions = (
 		<>
@@ -587,7 +586,7 @@ function GutenaTabs( props ) {
 
 	return (
 		<>
-			{ isModalOpen && (
+			{ hasInnerBlocks && isModalOpen && (
 				<Modal title={ __( 'Are you sure?', 'gutena-tabs' ) } isDismissible={ false } className="gutena-tabs-delete-tab-modal">
 					<div>{ __( 'Do you really want to delete', 'gutena-tabs' ) } <strong>"{ titleTabs[ currentTab - 1 ]?.text }"</strong></div>
 					<div style={ {  marginTop: '18px' } }>
@@ -606,129 +605,134 @@ function GutenaTabs( props ) {
 				</Modal>
 			) }
 
-			<BlockControls group="block">
-				<ToolbarDropdownMenu
-					icon={ aligns?.[ tabPosition ]?.icon }
-					label={ __( 'Tab Align', 'gutena-tabs' ) }
-					controls={ Object.keys( aligns ).map( align => {
-						{
-							const isActive = align === tabPosition;
-							return {
-								icon: aligns?.[ align ]?.icon,
-								label: aligns?.[ align ]?.title,
-								title: sprintf(
-									// translators: %s: Title
-									__( 'Align %s', 'gutena-tabs' ),
-									aligns?.[ align ]?.title
-								),
-								isActive,
-								onClick: () => setAttributes( { tabPosition: align } ),
-								role: 'menuitemradio',
-							};
-						}
-					} ) }
-				/>
-			</BlockControls>
-			<BlockControls>
-				<ToolbarGroup>
-					<ToolbarButton
-						icon={ plus }
-						label={ __( 'Add Tab', 'gutena-tabs' ) }
-						onClick={ () => {
-							const newBlock = createBlock( 'gutena/tab', { tabId: tabCount + 1 } );
-							const newTabCount = tabCount + 1;
-							insertTab( newBlock );
-
-							const newtabs = titleTabs;
-							newtabs.push( {
-								text: sprintf( __( 'Tab %d', 'gutena-tabs' ), newTabCount ),
-								icon: titleTabs[ 0 ].icon,
-								iconPosition: 'left',
-							} );
-							setAttributes( { titleTabs: newtabs, tabCount: newTabCount } );
-							setCurrentTab( newTabCount )
-							saveArrayUpdate( { iconPosition: titleTabs[ 0 ].iconPosition }, 0 );
-						} }
-					/>
-					{
-						currentTab > 1 && (
-							<ToolbarButton
-								icon={ chevronLeft }
-								label={ __( 'Move Tab Left', 'gutena-tabs' ) }
-								onClick={ onMoveBack( currentTab - 1 ) }
-							/>
-						)
-					}
-					{
-						realTabsCount !== currentTab && (
-							<ToolbarButton
-								icon={ chevronRight }
-								label={ __( 'Move Tab Right', 'gutena-tabs' ) }
-								onClick={ onMoveForward( currentTab - 1 ) }
-							/>
-						)
-					}
-					{
-						realTabsCount > 1 && (
-							<ToolbarButton
-								icon={ trash }
-								label={ __( 'Remove Tab', 'gutena-tabs' ) }
-								onClick={ () => { setModalOpen( true ) } }
-							/>
-						)
-					}
-				</ToolbarGroup>
-				{
-					tabIcon && titleTabs[ currentTab - 1 ] && titleTabs[ currentTab - 1 ].icon && (
+			{ hasInnerBlocks && 
+				<>
+					<BlockControls group="block">
+						<ToolbarDropdownMenu
+							icon={ aligns?.[ tabPosition ]?.icon }
+							label={ __( 'Tab Align', 'gutena-tabs' ) }
+							controls={ Object.keys( aligns ).map( align => {
+								{
+									const isActive = align === tabPosition;
+									return {
+										icon: aligns?.[ align ]?.icon,
+										label: aligns?.[ align ]?.title,
+										title: sprintf(
+											// translators: %s: Title
+											__( 'Align %s', 'gutena-tabs' ),
+											aligns?.[ align ]?.title
+										),
+										isActive,
+										onClick: () => setAttributes( { tabPosition: align } ),
+										role: 'menuitemradio',
+									};
+								}
+							} ) }
+						/>
+					</BlockControls>
+					<BlockControls>
 						<ToolbarGroup>
 							<ToolbarButton
-								icon={ renderSVG( titleTabs[ currentTab - 1 ].icon ) }
-								label={ __( 'Edit Icon', 'gutena-tabs' ) }
-								onClick={ () => setInserterOpen( true ) }
+								icon={ plus }
+								label={ __( 'Add Tab', 'gutena-tabs' ) }
+								onClick={ () => {
+									const newBlock = createBlock( 'gutena/tab', { tabId: tabCount + 1 } );
+									const newTabCount = tabCount + 1;
+									insertTab( newBlock );
+
+									const newtabs = titleTabs;
+									newtabs.push( {
+										text: sprintf( __( 'Tab %d', 'gutena-tabs' ), newTabCount ),
+										icon: titleTabs[ 0 ].icon,
+										iconPosition: 'left',
+									} );
+									setAttributes( { titleTabs: newtabs, tabCount: newTabCount } );
+									setCurrentTab( newTabCount )
+									saveArrayUpdate( { iconPosition: titleTabs[ 0 ].iconPosition }, 0 );
+								} }
 							/>
-						</ToolbarGroup>
-					)
-				}
-			</BlockControls>
-
-			<InspectorControls>
-				<TabPanel 
-					className="gutena-tab-panel gutena-tabs"
-					activeClass="active-tab"
-					tabs={ [
-						{
-							name     : 'heading',
-							title    : __( 'Tabs', 'gutena-tabs' ),
-							className: 'gutena-default-tab',
-						},
-						{
-							name     : 'content',
-							title    : __( 'Container', 'gutena-tabs' ),
-							className: 'gutena-active-tab',
-						},
-					] }>
-					{ ( tab ) => {
-							let tabout = tabHeadingOptions
-							if ( tab?.name == 'content' )  {
-								tabout = tabContentOptions
+							{
+								currentTab > 1 && (
+									<ToolbarButton
+										icon={ chevronLeft }
+										label={ __( 'Move Tab Left', 'gutena-tabs' ) }
+										onClick={ onMoveBack( currentTab - 1 ) }
+									/>
+								)
 							}
-							return tabout
+							{
+								realTabsCount !== currentTab && (
+									<ToolbarButton
+										icon={ chevronRight }
+										label={ __( 'Move Tab Right', 'gutena-tabs' ) }
+										onClick={ onMoveForward( currentTab - 1 ) }
+									/>
+								)
+							}
+							{
+								realTabsCount > 1 && (
+									<ToolbarButton
+										icon={ trash }
+										label={ __( 'Remove Tab', 'gutena-tabs' ) }
+										onClick={ () => { setModalOpen( true ) } }
+									/>
+								)
+							}
+						</ToolbarGroup>
+						{
+							tabIcon && titleTabs[ currentTab - 1 ] && titleTabs[ currentTab - 1 ].icon && (
+								<ToolbarGroup>
+									<ToolbarButton
+										icon={ renderSVG( titleTabs[ currentTab - 1 ].icon ) }
+										label={ __( 'Edit Icon', 'gutena-tabs' ) }
+										onClick={ () => setInserterOpen( true ) }
+									/>
+								</ToolbarGroup>
+							)
 						}
-					}
-				</TabPanel>
-				
-			</InspectorControls>
+					</BlockControls>
 
-			<InserterModal
-				isInserterOpen={ isInserterOpen }
-				setInserterOpen={ setInserterOpen }
-                value={ titleTabs[ currentTab - 1 ].icon }
-                onChange={ ( value ) => {
-					saveArrayUpdate( { icon: value?.iconName }, currentTab - 1 ) 
-				} } 
-			/>
+					<InspectorControls>
+						<TabPanel 
+							className="gutena-tab-panel gutena-tabs"
+							activeClass="active-tab"
+							tabs={ [
+								{
+									name     : 'heading',
+									title    : __( 'Tabs', 'gutena-tabs' ),
+									className: 'gutena-default-tab',
+								},
+								{
+									name     : 'content',
+									title    : __( 'Container', 'gutena-tabs' ),
+									className: 'gutena-active-tab',
+								},
+							] }>
+							{ ( tab ) => {
+									let tabout = tabHeadingOptions
+									if ( tab?.name == 'content' )  {
+										tabout = tabContentOptions
+									}
+									return tabout
+								}
+							}
+						</TabPanel>
+						
+					</InspectorControls>
 
-			{ renderCSS }
+					<InserterModal
+						isInserterOpen={ isInserterOpen }
+						setInserterOpen={ setInserterOpen }
+						value={ titleTabs[ currentTab - 1 ].icon }
+						onChange={ ( value ) => {
+							saveArrayUpdate( { icon: value?.iconName }, currentTab - 1 ) 
+						} } 
+					/>
+				</>
+			}
+
+			{ hasInnerBlocks && renderCSS }
+
 			{ hasInnerBlocks ? (
 				<div { ...blockProps }>
 					<ul className={ `gutena-tabs-tab tab-${ tabPosition } editor`}>

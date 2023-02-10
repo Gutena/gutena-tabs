@@ -3,7 +3,7 @@ Contributors: expresstech, infosatech
 Tags: block, horizontal tab, responsive tabs, tabs, wordpress tabs
 Requires at least: 5.8
 Tested up to: 6.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
@@ -64,6 +64,14 @@ If you like this plugin, consider exploring our other themes and plugins:
 1. Activate Gutena Tabs from your Plugins page.
 
 == Changelog ==
+
+= 1.0.2 =
+Release Date: 10th February, 2023
+
+* Tweak: Show Block settings if the block is actually present.
+* Fixed: CSS is not applying on some installations.
+* Added: Plugin Screenshots.
+* Added: Gutena Kit CTA.
 
 = 1.0.1 =
 Release Date: 25th January, 2023

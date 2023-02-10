@@ -2,7 +2,7 @@
 /**
  * Plugin Name:     Gutena Tabs
  * Description:     Gutena Tabs is a simple and easy-to-use WordPress plugin which allows you to create beautiful tabs in your posts and pages. The plugin is simple to use but provides many customization options so you can create tabs that look great and fit into your design. Additionally, You can add beautiful icons to the tabs.
- * Version:         1.0.1
+ * Version:         1.0.2
  * Author:          ExpressTech
  * Author URI:      https://expresstech.io
  * License:         GPL-2.0-or-later
@@ -31,7 +31,7 @@ if ( ! class_exists( 'Gutena_Tabs' ) ) {
 		 *
 		 * @var string
 		 */
-		public $version = '1.0.1';
+		public $version = '1.0.2';
 
 		/**
 		 * Child Block styles.
@@ -93,7 +93,9 @@ if ( ! class_exists( 'Gutena_Tabs' ) ) {
 		 */
 		public function render_tab_block( $attributes, $content, $block ) {
 			if ( ! empty( $attributes['blockStyles'] ) && is_array( $attributes['blockStyles'] ) && ! empty( $attributes['tabBorder']['enable'] ) ) {
-				$this->styles[ $attributes['parentUniqueId'] ][ $attributes['tabId'] ] = $attributes['blockStyles'];
+				if ( ! empty( $attributes['parentUniqueId'] ) && ! empty( $attributes['tabId'] ) ) {
+					$this->styles[ $attributes['parentUniqueId'] ][ $attributes['tabId'] ] = $attributes['blockStyles'];
+				}
 			}
 			
 			return $content;
@@ -103,39 +105,38 @@ if ( ! class_exists( 'Gutena_Tabs' ) ) {
 		 * Render Gutena play button block.
 		 */
 		public function render_block( $attributes, $content, $block ) {
-			add_action(
-				'wp_head',
-				function() use ( $attributes ) {
-					$styles = '';
-					if ( ! empty( $attributes['blockStyles'] ) && is_array( $attributes['blockStyles'] ) ) {
-						$styles .= sprintf( 
-							'.gutena-tabs-block-%1$s { %2$s }',
-							esc_attr( $attributes['uniqueId'] ),
-							$this->render_css( $attributes['blockStyles'] ),
-						);
+			//$css = '';
+			if ( ! empty( $attributes['uniqueId'] ) ) {
+				$unique_id = $attributes['uniqueId'];
 
-						if ( ! empty( $this->styles[ $attributes['uniqueId'] ] ) ) {
-							foreach ( $this->styles[ $attributes['uniqueId'] ] as $tab_id => $style ) {
-								$styles .= sprintf( 
-									'.gutena-tabs-block-%1$s .gutena-tabs-tab .gutena-tab-title[data-tab="%2$s"] { %3$s }',
-									esc_attr( $attributes['uniqueId'] ),
-									esc_attr( $tab_id ),
-									$this->render_css( $style ),
-								);
-							}
+				if ( ! empty( $attributes['blockStyles'] ) && is_array( $attributes['blockStyles'] ) ) {
+					$css = sprintf( 
+						'.gutena-tabs-block-%1$s { %2$s }',
+						esc_attr( $unique_id ),
+						$this->render_css( $attributes['blockStyles'] ),
+					);
+
+					if ( ! empty( $this->styles[ $unique_id ] ) ) {
+						foreach ( $this->styles[ $unique_id ] as $tab_id => $style ) {
+							$css .= sprintf( 
+								'.gutena-tabs-block-%1$s .gutena-tabs-tab .gutena-tab-title[data-tab="%2$s"] { %3$s }',
+								esc_attr( $unique_id ),
+								esc_attr( $tab_id ),
+								$this->render_css( $style ),
+							);
 						}
 					}
 
 					// print css
-					if ( ! empty( $styles ) ) {
-						printf(
-							'<style id="gutena-tabs-css-%1$s">%2$s</style>',
-							esc_attr( $attributes['uniqueId'] ),
-							$styles,
-						);
+					if ( ! empty( $css ) ) {
+						$style_id = 'gutena-tabs-css-' . $unique_id;
+
+						if ( ! wp_style_is( $style_id, 'enqueued' ) && apply_filters( 'gutena_tabs_render_head_css', true, $attributes ) ) {
+							$this->render_inline_css( $css, $style_id, true );
+						}
 					}
 				}
-			);
+			}
 
 			return $content;
 		}
@@ -153,6 +154,24 @@ if ( ! class_exists( 'Gutena_Tabs' ) ) {
 			}
 
 			return join( ';', $style );
+		}
+
+		/**
+		 * Render Inline CSS helper function
+		 *
+		 * @param array  $css the css for each rendered block.
+		 * @param string $style_id the unique id for the rendered style.
+		 * @param bool   $in_content the bool for whether or not it should run in content.
+		 */
+		private function render_inline_css( $css, $style_id, $in_content = false ) {
+			if ( ! is_admin() ) {
+				wp_register_style( $style_id, false );
+				wp_enqueue_style( $style_id );
+				wp_add_inline_style( $style_id, $css );
+				if ( 1 === did_action( 'wp_head' ) && $in_content ) {
+					wp_print_styles( $style_id );
+				}
+			}
 		}
 
 		/**
@@ -191,4 +210,9 @@ if ( ! function_exists( 'gutena_tabs_init' ) ) {
 
 	// Start it.
 	gutena_tabs_init();
+}
+
+// Gutena Ecosystem init.
+if ( file_exists( __DIR__ . '/includes/gutena/gutena-ecosys-onboard/gutena-ecosys-onboard.php' ) ) {
+	require_once  __DIR__ . '/includes/gutena/gutena-ecosys-onboard/gutena-ecosys-onboard.php';
 }
