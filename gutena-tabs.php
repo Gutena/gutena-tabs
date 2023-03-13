@@ -2,7 +2,7 @@
 /**
  * Plugin Name:     Gutena Tabs
  * Description:     Gutena Tabs is a simple and easy-to-use WordPress plugin which allows you to create beautiful tabs in your posts and pages. The plugin is simple to use but provides many customization options so you can create tabs that look great and fit into your design. Additionally, You can add beautiful icons to the tabs.
- * Version:         1.0.2
+ * Version:         1.0.3
  * Author:          ExpressTech
  * Author URI:      https://expresstech.io
  * License:         GPL-2.0-or-later
@@ -31,7 +31,7 @@ if ( ! class_exists( 'Gutena_Tabs' ) ) {
 		 *
 		 * @var string
 		 */
-		public $version = '1.0.2';
+		public $version = '1.0.3';
 
 		/**
 		 * Child Block styles.
@@ -71,6 +71,7 @@ if ( ! class_exists( 'Gutena_Tabs' ) ) {
 		public function __construct() {
 			add_action( 'init', [ $this, 'register' ] );
 			add_filter( 'block_categories_all', [ $this, 'register_category' ], 10, 2 );
+			add_filter( 'block_type_metadata', [ $this, 'block_type_metadata' ] );
 		}
 
 		/**
@@ -142,6 +143,20 @@ if ( ! class_exists( 'Gutena_Tabs' ) ) {
 		}
 
 		/**
+		 * Filter Core button metadata to add custom attributes.
+		 */
+		public function block_type_metadata( $metadata ) {
+			if ( 'core/button' === $metadata['name'] ) {
+				$metadata['attributes']['gutenaOpenTab'] = [
+					'type' => 'string',
+					'default' => 'none'
+				];
+			}
+	
+			return $metadata;
+		}
+
+		/**
 		 * Generate dynamic styles
 		 *
 		 * @param array $styles
@@ -149,7 +164,7 @@ if ( ! class_exists( 'Gutena_Tabs' ) ) {
 		 */
 		private function render_css( $styles ) {
 			$style = [];
-			foreach ( (array) $styles as $key => $value ) {
+			foreach ( ( array ) $styles as $key => $value ) {
 				$style[] = $key . ': ' . $value;
 			}
 

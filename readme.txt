@@ -1,9 +1,9 @@
 === Gutena Tabs ===
 Contributors: expresstech, infosatech
 Tags: block, horizontal tab, responsive tabs, tabs, wordpress tabs
-Requires at least: 5.8
+Requires at least: 5.9
 Tested up to: 6.1
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
@@ -11,6 +11,8 @@ License URI: http://www.gnu.org/licenses/gpl.html
 == Description ==
 
 Gutena Tabs is a simple and easy-to-use WordPress plugin which allows you to create beautiful tabs in your posts and pages. The plugin is simple to use but provides many customization options so you can create tabs that look great and fit into your design. Additionally, You can add beautiful icons to the tabs.
+
+[youtube https://www.youtube.com/watch?v=FiGpP44yNhA]
 
 [Gutena Tabs Demo](https://gutena.io/tabs-block)
 
@@ -64,6 +66,17 @@ If you like this plugin, consider exploring our other themes and plugins:
 1. Activate Gutena Tabs from your Plugins page.
 
 == Changelog ==
+
+= 1.0.3 =
+Release Date: 13th March, 2023
+
+* Added: Option to switch between tabs using wordpress buttons.
+* Added: Option to set Minimum Width to Tab Buttons.
+* Fixed: Tab buttons row gap was not applying on small devices.
+* Fixed: Box Shadow values were atomatically being inherited from the previous block if exists.
+* Fixed: Spacing before tab content if there are multiple child blocks present.
+* Added: Demo Video in the readme.txt file.
+* Minimum required WordPress version is now v5.9.
 
 = 1.0.2 =
 Release Date: 10th February, 2023

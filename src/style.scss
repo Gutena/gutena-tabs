@@ -42,7 +42,15 @@
         justify-content: flex-start;
         list-style: none;
         position: relative;
-        column-gap: var( --gutena--tabs-tab-spacing, 10px );
+        gap: var( --gutena--tabs-tab-spacing, 10px );
+
+        .gutena-tab-title {
+            min-width: var( --gutena--tabs-tab-min-width );
+        }
+
+        // & > * {
+        //     flex: 1 1 auto;
+        // }
 
         &.tab-center {
             justify-content: center;
@@ -54,7 +62,8 @@
 
         &.tab-flex {
             .gutena-tab-title {
-                flex: 1 0 auto;
+                min-width: none;
+                flex: 1 0 var( --gutena--tabs-tab-min-width, auto );
             }
         }
 
@@ -179,6 +188,7 @@
         z-index: 2;
 
         > .gutena-tab-block {
+            margin: 0;
             box-shadow: var( --gutena--tabs-tab-container-box-shadow );
             border-top: var( --gutena--tabs-tab-container-border-top );
             border-right: var( --gutena--tabs-tab-container-border-right );
