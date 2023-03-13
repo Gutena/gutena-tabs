@@ -6,6 +6,7 @@ import { boxShadowCss } from './utils/helpers';
 
 export default function DynamicStyles( attributes ) {
 	const {
+        tabMinWidth,
         tabPadding,
         tabBorder,
         tabSpacing,
@@ -51,6 +52,7 @@ export default function DynamicStyles( attributes ) {
     }
 
 	const styleProps = pickBy( {
+        '--gutena--tabs-tab-min-width': tabMinWidth,
         '--gutena--tabs-tab-spacing': tabSpacing,
         '--gutena--tabs-tab-after-gap': tabAfterGap,
 

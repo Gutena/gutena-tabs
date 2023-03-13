@@ -157,6 +157,7 @@ function GutenaTabs( props ) {
 		activeTab, 
 		titleTabs, 
 		tabPosition, 
+		tabMinWidth,
 		tabPadding, 
 		tabBorder, 
 		tabSpacing, 
@@ -340,6 +341,19 @@ function GutenaTabs( props ) {
 				</ToggleGroupControl>
 				<Spacer marginTop={ 3 } marginBottom={ 0 } className="gutena-tabs-controls">
 					<RangeControlUnit
+						rangeLabel={ __( 'Tabs Min Width', 'gutena-tabs' ) }
+						attrValue={ tabMinWidth }
+						onChangeFunc={ ( value ) => setAttributes( { tabMinWidth: value } )  }
+						rangeMin={ 0 }
+						rangeMax={ {
+							px: 800,
+							em: 300,
+							rem: 300,
+						} }
+						rangeStep={ 1 }
+						attrUnits= { [ 'px', 'em', 'rem' ] }
+					/>
+					<RangeControlUnit
 						rangeLabel={ __( 'Space between Tabs', 'gutena-tabs' ) }
 						attrValue={ tabSpacing }
 						onChangeFunc={ ( value ) => setAttributes( { tabSpacing: value } )  }
@@ -389,26 +403,20 @@ function GutenaTabs( props ) {
 				{
 					tabIcon && (
 						<>
-							<SelectControl
-								label={ __( 'Position', 'gutena-tabs' ) }
-								value={ tabIconPosition }
-								options={ [
-									{ label: 'Left', value: 'left' },
-									{ label: 'Top', value: 'top' },
-									{ label: 'Right', value: 'right' },
-								] }
-								onChange={ ( value ) => setAttributes( { tabIconPosition: value } ) }
-								__nextHasNoMarginBottom
-							/>
+							<ToggleGroupControl label={ __( 'Position', 'gutena-tabs' ) } value={ tabIconPosition } onChange={ ( value ) => setAttributes( { tabIconPosition: value } ) } isBlock>
+								<ToggleGroupControlOption value="left" label={ __( 'Left', 'gutena-tabs' ) } />
+								<ToggleGroupControlOption value="top" label={ __( 'Top', 'gutena-tabs' ) } />
+								<ToggleGroupControlOption value="right" label={ __( 'Right', 'gutena-tabs' ) } />
+							</ToggleGroupControl>
 							<RangeControl
-								label={ __( 'Size', 'gutena-tabs' ) }
+								label={ __( 'Size (px)', 'gutena-tabs' ) }
 								value={ tabIconSize }
 								onChange={ ( value ) => setAttributes( { tabIconSize: value } ) }
 								min={ 5 }
 								max={ 100 }
 							/>
 							<RangeControl
-								label={ __( 'Gap between Icon and Title', 'gutena-tabs' ) }
+								label={ __( 'Gap between Icon and Title (px)', 'gutena-tabs' ) }
 								value={ tabIconSpacing }
 								onChange={ ( value ) => setAttributes( { tabIconSpacing: value } ) }
 								min={ 1 }

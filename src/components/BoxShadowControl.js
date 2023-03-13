@@ -15,16 +15,6 @@ import RangeControlUnit from './RangeControlUnit';
 
 import { gkIsEmpty } from '../utils/helpers';
 
-const DEFAULT_BOX_SHADOW = {
-	onBoxShadow: false,
-	inset: false,
-	offsetX: undefined,
-	offsetY: undefined,
-	blurRadius: undefined,
-	spreadRadius: undefined,
-	color: undefined,
-};
-
 const DEFAULT_COLORS = [
 	{ name: 'Blue alpha 1', color: 'rgba(9, 7, 37, 0.05)' },
 	{ name: 'Black alpha 1', color: 'rgba(0, 0, 0, 0.09)' },
@@ -36,7 +26,7 @@ const noop = () => {};
 const BoxShadowControl = ( {
 	label = __( 'Enable Box Shadow', 'gutena-tabs' ),
 	toggleLabel = __( 'On', 'gutena-tabs' ),
-	attrValue = DEFAULT_BOX_SHADOW,
+	attrValue,
 	attrColors = DEFAULT_COLORS,
 	onChangeFunc = noop,
 	onBoxShadow = false,
@@ -51,6 +41,16 @@ const BoxShadowControl = ( {
 		rem: 10,
 		vh: 10,
 		vw: 10,
+	};
+
+	const DEFAULT_BOX_SHADOW = {
+		onBoxShadow: false,
+		inset: false,
+		offsetX: undefined,
+		offsetY: undefined,
+		blurRadius: undefined,
+		spreadRadius: undefined,
+		color: undefined,
 	};
 
 	const boxShadowAttr = {

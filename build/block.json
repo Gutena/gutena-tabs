@@ -98,6 +98,10 @@
         }
       }
     },
+    "tabMinWidth": {
+      "type": "string",
+      "default": "40px"
+    },
     "tabSpacing": {
       "type": "string",
       "default": "10px"
@@ -215,7 +219,7 @@
     }
   },
   "editorScript": "file:./index.js",
-  "script": "file:./view.js",
+  "viewScript": "file:./view.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css"
 }
