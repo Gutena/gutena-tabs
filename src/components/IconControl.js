@@ -52,7 +52,7 @@ const IconControl = ( {
 
     const controls = (
         <>
-            <BaseControl label={ label } className="gutena-icon-picker" __nextHasNoMarginBottom={ true }>
+            <BaseControl label={ label } className="gutena-tabs-icon-picker" __nextHasNoMarginBottom={ true }>
                 <div className="icon-picker">
                     <div className="icon-picker__current">
                         {

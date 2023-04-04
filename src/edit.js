@@ -182,14 +182,15 @@ function GutenaTabs( props ) {
 		layout 
 	} = attributes;
 
-	const { selectedBlock, selectedBlockClientId, parentBlockId, hasInnerBlocks } = useSelect(
+	const { selectedBlock, selectedBlockClientId, parentBlockId, hasInnerBlocks, innerBlocksCount } = useSelect(
 		( select ) => {
-			const { getSelectedBlock, getSelectedBlockClientId, getBlockRootClientId, getBlocks } = select( blockEditorStore );
+			const { getSelectedBlock, getSelectedBlockClientId, getBlockRootClientId, getBlocks, getBlockCount } = select( blockEditorStore );
 			return {
 				selectedBlock: getSelectedBlock(),
 				selectedBlockClientId: getSelectedBlockClientId(),
 				parentBlockId: getBlockRootClientId( getSelectedBlockClientId() ) ,
-				hasInnerBlocks: getBlocks( clientId ).length > 0
+				hasInnerBlocks: getBlocks( clientId ).length > 0,
+				innerBlocksCount: getBlockCount( clientId ),
 			};
 		},
 		[ clientId ]
@@ -207,6 +208,12 @@ function GutenaTabs( props ) {
 			}
 		}
     }, [ selectedBlockClientId ] )
+
+	useEffect( () => {
+		if ( tabCount != innerBlocksCount ) {
+			setAttributes( { tabCount: innerBlocksCount } );
+		}
+    }, [ innerBlocksCount ] )
 
 	const saveArrayUpdate = ( value, index ) => {
 		const newItems = titleTabs.map( ( item, thisIndex ) => {
@@ -229,12 +236,6 @@ function GutenaTabs( props ) {
 		newtitleTabs.splice( oldIndex, 1, titleTabs[ newIndex ] );
 		
         setAttributes( { titleTabs: newtitleTabs } );
-		
-        // if ( startTab === ( oldIndex + 1 ) ) {
-		// 	setAttributes( { startTab: ( newIndex + 1 ) } );
-		// } else if ( startTab === ( newIndex + 1 ) ) {
-		// 	setAttributes( { startTab: ( oldIndex + 1 ) } );
-		// }
 
 		moveTab( oldIndex, newIndex );
 		resetOrder();
@@ -287,7 +288,8 @@ function GutenaTabs( props ) {
     }
 
 	const deviceType = useSelect( select => {
-        return select( 'core/edit-post' ).__experimentalGetPreviewDeviceType();
+		const editor = select( 'core/edit-post' ) || select( 'core/edit-site' );
+        return editor.__experimentalGetPreviewDeviceType();
     }, [] );
 
 	const blockProps = useBlockProps( {

@@ -2,8 +2,8 @@
 Contributors: expresstech, infosatech
 Tags: block, horizontal tab, responsive tabs, tabs, wordpress tabs
 Requires at least: 5.9
-Tested up to: 6.1
-Stable tag: 1.0.3
+Tested up to: 6.2
+Stable tag: 1.0.4
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
@@ -67,13 +67,20 @@ If you like this plugin, consider exploring our other themes and plugins:
 
 == Changelog ==
 
+= 1.0.4 =
+Release Date: 4th April, 2023
+
+* Fixed: Error in the Site Editor device type preview.
+* Fixed: Tab count was not properly showing on switch between tabs settings.
+* Tested with WordPress v6.2.
+
 = 1.0.3 =
 Release Date: 13th March, 2023
 
 * Added: Option to switch between tabs using wordpress buttons.
 * Added: Option to set Minimum Width to Tab Buttons.
 * Fixed: Tab buttons row gap was not applying on small devices.
-* Fixed: Box Shadow values were atomatically being inherited from the previous block if exists.
+* Fixed: Box Shadow values were automatically being inherited from the previous block if exists.
 * Fixed: Spacing before tab content if there are multiple child blocks present.
 * Added: Demo Video in the readme.txt file.
 * Minimum required WordPress version is now v5.9.

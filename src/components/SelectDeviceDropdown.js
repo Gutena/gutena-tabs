@@ -20,7 +20,8 @@ const SelectDeviceDropdown = ( {
 
     //Get Device preview type
     const deviceType = useSelect( select => {
-        return select( 'core/edit-post' ).__experimentalGetPreviewDeviceType();
+        const editor = select( 'core/edit-post' ) || select( 'core/edit-site' );
+        return editor.__experimentalGetPreviewDeviceType();
     }, [] );
     
     //Local device type based on parent component

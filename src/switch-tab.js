@@ -7,20 +7,20 @@ import { SelectControl, PanelBody } from '@wordpress/components';
 
 const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
     return ( props ) => {
-        const { name, attributes, setAttributes, isSelected, clientId } = props;
-         
+        const { name, attributes, setAttributes, clientId } = props;
+
         if ( 'core/button' === name ) {
-            const { rootTabsBlockAttributes, rootTabsBlockClientId } = useSelect( ( select ) => {
-                const { getBlockParentsByBlockName, getBlockAttributes } = select( blockEditorStore );
-                const rootTabsBlockClientId = getBlockParentsByBlockName( clientId, 'gutena/tabs' );
+            const { rootBlockClientId, rootInnerBlocksCount } = useSelect( select => {
+                const { getBlockParentsByBlockName, getBlockCount } = select( blockEditorStore );
+                const rootBlockClientId = getBlockParentsByBlockName( clientId, 'gutena/tabs' );
 
                 return {
-                    rootTabsBlockAttributes: getBlockAttributes( rootTabsBlockClientId ),
-                    rootTabsBlockClientId: rootTabsBlockClientId,
+                    rootBlockClientId: rootBlockClientId[0],
+                    rootInnerBlocksCount: getBlockCount( rootBlockClientId[0] )
                 };
             }, [ clientId ] );
 
-            if ( rootTabsBlockClientId?.length ) {
+            if ( rootBlockClientId ) {
                 const { gutenaOpenTab } = attributes;
 
                 return (
@@ -38,7 +38,7 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
                                 >
                                     <option value="none">{ __( 'None', 'gutena-tabs' ) }</option>
                                     {
-                                        Array.from( Array( rootTabsBlockAttributes?.tabCount ).keys() ).map( ( value ) => (
+                                        Array.from( Array( rootInnerBlocksCount ).keys() ).map( value => (
                                             <option value={ value + 1 } key={ value.toString() }>{ sprintf( __( 'Tab %d', 'gutena-tabs' ), value + 1 ) }</option>
                                         ) )
                                     }
