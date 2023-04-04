@@ -115,14 +115,18 @@
             }
         }
 
-        .block-editor-block-variation-picker__variations {
-            row-gap: 20px;
+        .components-placeholder__fieldset {
+            max-width: 100% !important;
 
-            svg {
-                width: 100%;
-                height: 100%;
-                max-width: 261px;
-                max-height: 175px;
+            .block-editor-block-variation-picker__variations {
+                row-gap: 20px;
+
+                svg {
+                    width: 100%;
+                    height: 100%;
+                    max-width: 261px;
+                    max-height: 175px;
+                }
             }
         }
 

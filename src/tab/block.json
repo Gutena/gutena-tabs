@@ -10,7 +10,8 @@
     "supports": {
         "html": false,
         "ariaLabel": true,
-        "reusable": false
+        "reusable": false,
+		"lock": false
     },
     "attributes": {
 		"uniqueId": {

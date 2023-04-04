@@ -1,9 +1,4 @@
 /**
- * Import Tab Switch
- */
-import './switch-tab'
-
-/**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
@@ -115,3 +110,7 @@ registerBlockType( metadata, {
 } );
 
 
+/**
+ * Import Tab Switch
+ */
+import './switch-tab'
