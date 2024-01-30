@@ -8,7 +8,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
                 setActiveTab( tabNodeList, index )
     
                 let parentNode = el?.closest( '.gutena-tabs-block' );
-                let tabBlockNodeList = parentNode.querySelectorAll( '.gutena-tabs-content .gutena-tab-block' );
+                //drafts.csswg.org/selectors-4/#the-scope-pseudo : prevent select nested tab block
+                let tabBlockNodeList = parentNode.querySelectorAll( ':scope > .gutena-tabs-content > .gutena-tab-block' );
                 setActiveTab( tabBlockNodeList, index )
             } );
         } );
