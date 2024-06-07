@@ -8,6 +8,9 @@ import {
     __experimentalHStack as HStack,
     Icon,
 } from "@wordpress/components";
+import {
+	store as editorStore,
+} from '@wordpress/editor';
 import { gkIsEmpty } from '../utils/helpers';
 import { desktopIcon, tabletIcon, mobileIcon  } from './gutenaIcons';
 
@@ -20,17 +23,16 @@ const SelectDeviceDropdown = ( {
 
     //Get Device preview type
     const deviceType = useSelect( select => {
-        const editor = select( 'core/edit-post' ) || select( 'core/edit-site' );
-        return editor.__experimentalGetPreviewDeviceType();
+        return select( 'core/editor' ).getDeviceType();
     }, [] );
     
     //Local device type based on parent component
     const deviceTypeView = gkIsEmpty( deviceTypeLocal ) ? deviceType : deviceTypeLocal;
 
     //Set Preview
-    const { __experimentalSetPreviewDeviceType: setPreviewDeviceType } = useDispatch( 'core/edit-post' ) || useDispatch( 'core/edit-site' );
+    const { setDeviceType } = useDispatch( editorStore );
     
-    const setDeviceType = gkIsEmpty( onChangefunc ) ? setPreviewDeviceType : onChangefunc;
+    const setDeviceTypeFunc = gkIsEmpty( onChangefunc ) ? setDeviceType : onChangefunc;
 
     const selectedIcon = ( 'Desktop' === deviceTypeView ) ? desktopIcon : ( 'Tablet' === deviceTypeView ) ? tabletIcon : mobileIcon ;
 
@@ -48,17 +50,17 @@ const SelectDeviceDropdown = ( {
                     {
                         title: __( 'Desktop', 'gutena-tabs' ),
                         icon: desktopIcon,
-                        onClick: () => setDeviceType( 'Desktop' ),
+                        onClick: () => setDeviceTypeFunc( 'Desktop' ),
                     },
                     {
                         title: __( 'Tablet', 'gutena-tabs' ),
                         icon: tabletIcon,
-                        onClick: () => setDeviceType( 'Tablet' ),
+                        onClick: () => setDeviceTypeFunc( 'Tablet' ),
                     },
                     {
                         title: __( 'Mobile', 'gutena-tabs' ),
                         icon: mobileIcon,
-                        onClick: () => setDeviceType( 'Mobile' ),
+                        onClick: () => setDeviceTypeFunc( 'Mobile' ),
                     }
                 ] }
             />
