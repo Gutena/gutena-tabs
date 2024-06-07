@@ -30,12 +30,12 @@ import {
 	__experimentalFontAppearanceControl as FontAppearanceControl,
 	__experimentalBlockVariationPicker as BlockVariationPicker,
     RichText,
-	useSetting,
 	InspectorControls,
 	BlockControls,
     useBlockProps, 
     useInnerBlocksProps,
-    store as blockEditorStore 
+    store as blockEditorStore,
+	useSettings
 } from '@wordpress/block-editor';
 import { 
 	chevronLeft, 
@@ -76,7 +76,7 @@ import getIcons from './icons';
 import DynamicStyles from './styles';
 
 import variations from './variations'
-
+import { gkIsEmpty } from './utils/helpers';
 /**
  * Styles
  */
@@ -288,8 +288,7 @@ function GutenaTabs( props ) {
     }
 
 	const deviceType = useSelect( select => {
-		const editor = select( 'core/edit-post' ) || select( 'core/edit-site' );
-        return editor.__experimentalGetPreviewDeviceType();
+		return select( 'core/editor' ).getDeviceType();
     }, [] );
 
 	const blockProps = useBlockProps( {
@@ -308,6 +307,39 @@ function GutenaTabs( props ) {
 		templateLock: "all",
 		renderAppender: false
     } );
+
+	const getFontFamiliesList = ( fontFamilies ) => {
+		if ( gkIsEmpty( fontFamilies ) ) {
+			return {};
+		}
+
+		if ( ! Array.isArray( fontFamilies ) ) {
+			const { theme, custom } = fontFamilies;
+			fontFamilies = theme !== undefined ? theme : [];
+			if ( custom !== undefined ) {
+				fontFamilies = [ ...fontFamilies, ...custom ];
+			}
+		}
+
+		if ( gkIsEmpty( fontFamilies ) || 0 == fontFamilies.length ) {
+			return [];
+		}
+
+		return fontFamilies;
+	}
+
+	const [ 
+		fontFamilies,
+		fontSizes,
+		fontStyle,
+		fontWeight
+	] = useSettings( 
+		'typography.fontFamilies',
+		'typography.fontSizes',
+		'typography.fontStyle',
+		'typography.fontWeight'
+	);
+	const fontFamiliesList = getFontFamiliesList( fontFamilies );
 
 	const dynamicStyles = DynamicStyles( attributes )
     const renderCSS = (
@@ -430,7 +462,7 @@ function GutenaTabs( props ) {
 			</PanelBody>
 			<PanelBody title={ __( 'Typography', 'gutena-tabs' ) } initialOpen={ false } className="gutena-tabs-settings">
 				<FontFamilyControl
-					fontFamilies={ useSetting( 'typography.fontFamilies' ) }
+					fontFamilies={ fontFamiliesList }
 					value={ tabTitleFontFamily }
 					onChange={ ( value ) => setAttributes( { tabTitleFontFamily: value } ) }
 				/>
@@ -438,11 +470,11 @@ function GutenaTabs( props ) {
 					value={ tabTitleFontSize }
 					onChange={ ( value ) => setAttributes( { tabTitleFontSize: value } ) }
 					fallBackFontSize={ 14 }
-					fontSizes={ useSetting( 'typography.fontSizes' ) }
+					fontSizes={ fontSizes }
 				/>
 				<FontAppearanceControl
-					hasFontStyles={ !! useSetting( 'typography.fontStyle' ) }
-					hasFontWeights={ !! useSetting( 'typography.fontWeight' ) }
+					hasFontStyles={ !! fontStyle }
+					hasFontWeights={ !! fontWeight }
 					value={ {
 						fontStyle: tabTitleFontStyle,
 						fontWeight: tabTitleFontWeight,

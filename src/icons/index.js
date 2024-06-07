@@ -284,6 +284,7 @@ import {
 	tumblr,
 	twitch,
 	twitter,
+	twitterx,
 	vimeo,
 	vk,
 	wordpress,
@@ -528,6 +529,13 @@ const wordpressSocialIcons = [
 		name: 'twitter',
 		title: 'Twitter',
 		icon: twitter,
+		categories: [ 'logos' ],
+	},
+	{
+		isDefault: true,
+		name: 'twitterx',
+		title: 'Twitter X',
+		icon: twitterx,
 		categories: [ 'logos' ],
 	},
 	{

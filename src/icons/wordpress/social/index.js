@@ -36,6 +36,7 @@ export * from './tiktok';
 export * from './tumblr';
 export * from './twitch';
 export * from './twitter';
+export * from './twitterx';
 export * from './vimeo';
 export * from './vk';
 export * from './wordpress';
