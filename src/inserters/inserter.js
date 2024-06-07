@@ -146,6 +146,7 @@ export default function InserterModal( props ) {
 	function renderIconTypeCategories( type ) {
 		return (
 			<MenuGroup
+				key={ 'render-icon-type-'+type.title }
 				className="icon-inserter__sidebar__category-type"
 				label={ type.title }
 			>
@@ -190,7 +191,7 @@ export default function InserterModal( props ) {
 	}
 
 	const searchResults = (
-		<div className="icons-list">
+		<div key={ 'search-results' } className="icons-list">
 			{ shownIcons.map( ( icon ) => {
 				let renderedIcon = icon.icon;
 
@@ -223,7 +224,7 @@ export default function InserterModal( props ) {
 	);
 
 	const noResults = (
-		<div className="block-editor-inserter__no-results">
+		<div key={ 'no-search-results' } className="block-editor-inserter__no-results">
 			<Icon
 				icon={ blockDefault }
 				className="block-editor-inserter__no-results-icon"

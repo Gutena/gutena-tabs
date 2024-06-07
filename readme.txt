@@ -1,9 +1,9 @@
 === Gutena Tabs ===
 Contributors: expresstech, infosatech
 Tags: block, horizontal tab, responsive tabs, tabs, wordpress tabs
-Requires at least: 5.9
-Tested up to: 6.4
-Stable tag: 1.0.6
+Requires at least: 6.5
+Tested up to: 6.5
+Stable tag: 1.0.7
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
@@ -66,6 +66,12 @@ If you like this plugin, consider exploring our other themes and plugins:
 1. Activate Gutena Tabs from your Plugins page.
 
 == Changelog ==
+
+= 1.0.7 ( 07 June 2024 ) =
+* Updated: setDeviceType function to preview responsive changes
+* Updated: getDeviceType function to check current preview device
+* Replaced: deprecated useSetting with new useSettings method
+* Added: Twitter X icon
 
 = 1.0.6 ( 30 January 2024 ) =
 * Fixed: Nested Tabs navigation

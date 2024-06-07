@@ -12,18 +12,39 @@ import { __, _x } from '@wordpress/i18n';
 import { useMemo } from '@wordpress/element'
 import {  
 	__experimentalUseGradient,
-    useSetting
+    useSettings
 } from "@wordpress/block-editor";
  
 const colorSettingsData = () => {
+
+	const [ 
+		allowCustomControl, 
+		allowCustomGradients,
+		customColors,
+		themeColors,
+		defaultColors,
+		shouldDisplayDefaultColors,
+		customGradients,
+		themeGradients,
+		defaultGradients,
+		shouldDisplayDefaultGradients
+	] = useSettings( 
+		'color.custom',
+		'color.customGradient',
+		'color.palette.custom',
+		'color.palette.theme',
+		'color.palette.default',
+		'color.defaultPalette',
+		'color.gradients.custom',
+		'color.gradients.theme',
+		'color.gradients.default',
+		'color.defaultGradients'
+	);
+
 	const colorGradientSettings = {
-		disableCustomColors: ! useSetting( 'color.custom' ),
-		disableCustomGradients: ! useSetting( 'color.customGradient' ),
+		disableCustomColors: ! allowCustomControl,
+		disableCustomGradients: ! allowCustomGradients,
 	};
-	const customColors = useSetting( 'color.palette.custom' );
-	const themeColors = useSetting( 'color.palette.theme' );
-	const defaultColors = useSetting( 'color.palette.default' );
-	const shouldDisplayDefaultColors = useSetting( 'color.defaultPalette' );
 
 	colorGradientSettings.colors = useMemo( () => {
 		const result = [];
@@ -62,12 +83,6 @@ const colorSettingsData = () => {
 		return result;
 	}, [ defaultColors, themeColors, customColors ] );
 
-	const customGradients = useSetting( 'color.gradients.custom' );
-	const themeGradients = useSetting( 'color.gradients.theme' );
-	const defaultGradients = useSetting( 'color.gradients.default' );
-	const shouldDisplayDefaultGradients = useSetting(
-		'color.defaultGradients'
-	);
 	colorGradientSettings.gradients = useMemo( () => {
 		const result = [];
 		if ( themeGradients && themeGradients.length ) {
