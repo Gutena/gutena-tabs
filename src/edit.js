@@ -308,9 +308,24 @@ function GutenaTabs( props ) {
 		renderAppender: false
     } );
 
+	/**
+	 * Return an array of font families from a given object.
+	 *
+	 * If the object is empty, or not an object, return an empty array.
+	 *
+	 * If the object is an array, return the array if it's not empty.
+	 *
+	 * If the object is an object, try to get the theme and custom properties.
+	 * If the theme property exists, return it. If the custom property exists,
+	 * merge them together and return the merged array.
+	 *
+	 * @param {object|array} fontFamilies Font families object or array.
+	 *
+	 * @return {array} Array of font families.
+	 */
 	const getFontFamiliesList = ( fontFamilies ) => {
 		if ( gkIsEmpty( fontFamilies ) ) {
-			return {};
+			return [];
 		}
 
 		if ( ! Array.isArray( fontFamilies ) ) {
