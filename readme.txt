@@ -1,9 +1,9 @@
 === Gutena Tabs ===
-Contributors: expresstech, infosatech
+Contributors: wpexpertsio
 Tags: block, horizontal tab, responsive tabs, tabs, wordpress tabs
 Requires at least: 6.5
-Tested up to: 6.6
-Stable tag: 1.0.8
+Tested up to: 6.9
+Stable tag: 1.0.10
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
@@ -20,7 +20,7 @@ Gutena Tabs is a simple and easy-to-use WordPress plugin which allows you to cre
 
 * Complete control over the look and feel
 * Fully customizable, so you can easily change the color, border, radius, typography, padding, margin and much more..
-* No jQuery, so it won’t slow down your website
+* No jQuery, so it wonâ€™t slow down your website
 * You can add icons to the tabs
 * You can add other core blocks inside the tab container
 * Control all tabs from a single setting
@@ -66,6 +66,12 @@ If you like this plugin, consider exploring our other themes and plugins:
 1. Activate Gutena Tabs from your Plugins page.
 
 == Changelog ==
+
+= 1.0.10 - Dec 18, 2025 =
+* TWEAK - Updated Version
+
+= 1.0.9 - Dec 18, 2025 =
+* FIX - Added Compatibility with WordPress 6.9 
 
 = 1.0.8 ( 03rd September 2024 ) =
 * Fixed: Non FSE theme typography error
