@@ -57,6 +57,7 @@ import {
 import classnames from 'classnames';
 import memoize from 'memize';
 import { times, filter, isEqual } from 'lodash';
+import { sprintf } from 'sprintf-js';
 
 /**
  * Import custom components
