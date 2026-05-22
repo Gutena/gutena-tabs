@@ -93,7 +93,7 @@ if ( ! class_exists( 'Gutena_Tabs' ) ) {
 		 * Render Gutena play button block.
 		 */
 		public function render_tab_block( $attributes, $content, $block ) {
-			if ( ! empty( $attributes['blockStyles'] ) && is_array( $attributes['blockStyles'] ) && ! empty( $attributes['tabBorder']['enable'] ) ) {
+			if ( ! empty( $attributes['blockStyles'] ) && is_array( $attributes['blockStyles'] ) && ! empty( $attributes['tabBorder'] ) && ! empty( $attributes['tabBorder']['enable'] ) ) {
 				if ( ! empty( $attributes['parentUniqueId'] ) && ! empty( $attributes['tabId'] ) ) {
 					$this->styles[ $attributes['parentUniqueId'] ][ $attributes['tabId'] ] = $attributes['blockStyles'];
 				}
@@ -130,7 +130,7 @@ if ( ! class_exists( 'Gutena_Tabs' ) ) {
 
 					// print css
 					if ( ! empty( $css ) ) {
-						$style_id = 'gutena-tabs-css-' . $unique_id;
+						$style_id = 'gutena-tabs-css-' . sanitize_html_class( $unique_id );
 
 						if ( ! wp_style_is( $style_id, 'enqueued' ) && apply_filters( 'gutena_tabs_render_head_css', true, $attributes ) ) {
 							$this->render_inline_css( $css, $style_id, true );
@@ -164,11 +164,22 @@ if ( ! class_exists( 'Gutena_Tabs' ) ) {
 		 */
 		private function render_css( $styles ) {
 			$style = [];
-			foreach ( ( array ) $styles as $key => $value ) {
-				$style[] = $key . ': ' . $value;
+
+			foreach ( (array) $styles as $key => $value ) {
+				$property = sanitize_key( wp_strip_all_tags( (string) $key ) );
+
+				if ( is_array( $value ) || is_object( $value ) ) {
+					continue;
+				}
+
+				$val = sanitize_text_field( wp_strip_all_tags( (string) $value ) );
+
+				if ( '' !== $property && '' !== $val ) {
+					$style[] = $property . ': ' . esc_attr( $val );
+				}
 			}
 
-			return join( ';', $style );
+			return implode( ';', $style );
 		}
 
 		/**
