@@ -2,8 +2,8 @@
 Contributors: wpexpertsio
 Tags: block, horizontal tab, responsive tabs, tabs, wordpress tabs
 Requires at least: 6.5
-Tested up to: 6.9
-Stable tag: 1.0.10
+Tested up to: 7.0
+Stable tag: 1.0.11
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
@@ -20,7 +20,7 @@ Gutena Tabs is a simple and easy-to-use WordPress plugin which allows you to cre
 
 * Complete control over the look and feel
 * Fully customizable, so you can easily change the color, border, radius, typography, padding, margin and much more..
-* No jQuery, so it wonâ€™t slow down your website
+* No jQuery, so it wonÃ¢â‚¬â„¢t slow down your website
 * You can add icons to the tabs
 * You can add other core blocks inside the tab container
 * Control all tabs from a single setting
@@ -29,6 +29,8 @@ Gutena Tabs is a simple and easy-to-use WordPress plugin which allows you to cre
 == Other Blocks From Gutena ==
 
 If you like this plugin, consider exploring our other block plugins: 
+
+[Post SMTP](https://wordpress.org/plugins/post-smtp/) - Reliable email delivery, detailed email logs, and instant failure alerts.
 
 [Gutena Newsletter](https://wordpress.org/plugins/newsletter-block-by-gutena/) - Easily and instantly add Newsletter Block to your Gutenberg Editor.
 
@@ -48,16 +50,6 @@ If you like this plugin, consider exploring our other themes and plugins:
 
 [Gutena](https://wordpress.org/themes/gutena/) - A full site editing (block) theme for WordPress with ready made full page templates. Elegant and functional - follows all the best practices by WP, and yeah, no jQuery!
 
-[Quiz and Survey Master](https://wordpress.org/plugins/quiz-master-next/) - Best WordPress Quiz Plugin to create engaging quizzes, surveys, & exams using WordPress and convert your website into a lead generation machine.
-
-[Responsive Menu](https://wordpress.org/plugins/responsive-menu/) - Best WordPress Menu Builder Plugin to create awesome and interactive mobile & desktop menus for WordPress websites.
-
-[Projectopia](https://wordpress.org/plugins/projectopia-core/) - Project Management & Invoicing plugin for WordPress. Generate invoices, send quotes, generate leads, manage clients, provide support - all inside your WordPress website.
-
-[Booking Ultra](https://wordpress.org/plugins/booking-ultra-pro/) - Appointment Booking plugin for WordPress - Show a quick form to accept bookings for your services with pre-set booking slots. Ideal for salons, medical professionals, lawyers, consultants, etc.
-
-[InstaWP](https://instawp.com/) - Launch a quick WordPress site with this sandbox service. Create New WordPress instance within a second.
-
 == Installation ==
 
 1. Visit 'Plugins > Add New'.
@@ -66,6 +58,9 @@ If you like this plugin, consider exploring our other themes and plugins:
 1. Activate Gutena Tabs from your Plugins page.
 
 == Changelog ==
+
+= 1.0.11 - June 09, 2026 =
+* FIX - A stored XSS vulnerability in the Tabs block by improving sanitization and validation of the `blockStyles` attribute.
 
 = 1.0.10 - Dec 18, 2025 =
 * TWEAK - Updated Version
